@@ -15,23 +15,23 @@ const useFormikContext = ({ children }: FormContextProps) => {
 		if (child.props.defaultChecked) {
 			return child.props.defaultChecked
 		}
-		if (child.props.defaultValue) {
-			return child.props.defaultValue
-		}
 	}
-	const getChildren = (children: ChildrenProps[], action: FormikProps<{
-		[key: string]: string | number | boolean;
-	}>) : ChildrenProps[] => {
+	const getChildren = (
+		children: ChildrenProps[],
+		action: FormikProps<{
+			[key: string]: string | number | boolean
+		}>,
+	): ChildrenProps[] => {
 		return Children.map(children, child => {
 			if (typeof child !== 'object') return child
 			if (child.props && !child.props.name && child.props.children) {
-				return cloneElement(
-					child,
-					{
-						...child.props,
-						children: getChildren(child.props.children, action)
-					},
-				)
+				return cloneElement(child, {
+					...child.props,
+					children: getChildren(
+						child.props.children,
+						action,
+					),
+				})
 			}
 			if (!child.props.name && !child.props.children) {
 				return child
@@ -43,10 +43,7 @@ const useFormikContext = ({ children }: FormContextProps) => {
 			const props = {
 				onChange: action.handleChange,
 			}
-			return cloneElement(
-				child,
-				props,
-			)
+			return cloneElement(child, props)
 		})
 	}
 

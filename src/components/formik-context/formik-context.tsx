@@ -22,7 +22,7 @@ const FormContext: FC<FormContextProps> = ({ children }) => {
 					alert(JSON.stringify(values, null, 4))
 				}}
 			>
-				{(action) => (
+				{action => (
 					<Form>
 						<Flex gap="8" direction="column">
 							{getChildren(children, action)}
