@@ -1,4 +1,4 @@
-import { FC, Children, cloneElement, createContext, ReactElement } from 'react'
+import { FC, createContext, ReactElement } from 'react'
 import { Formik, Form } from 'formik'
 import { Flex } from '@chakra-ui/react'
 import { Button } from '../ui/button'
@@ -11,32 +11,21 @@ export interface FormContextProps {
 }
 
 const FormContext: FC<FormContextProps> = ({ children }) => {
-	const { fieldRef } = useFormikContext({ children })
+	const { fieldRef, getChildren } = useFormikContext({ children })
 	return (
 		<FormikContext.Provider value={{}}>
 			<Formik
 				initialValues={fieldRef.current}
 				onSubmit={values => {
+					console.log(fieldRef.current)
+					console.log(values)
 					alert(JSON.stringify(values, null, 4))
 				}}
 			>
-				{({ handleChange }) => (
+				{(action) => (
 					<Form>
 						<Flex gap="8" direction="column">
-							{Children.map(children, child => {
-								if (
-									typeof children !==
-									'object'
-								)
-									return child
-								const props = {
-									onChange: handleChange,
-								}
-								return cloneElement(
-									child,
-									props,
-								)
-							})}
+							{getChildren(children, action)}
 							<Button
 								size="xs"
 								variant="outline"

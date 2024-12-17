@@ -1,5 +1,6 @@
-import { Children, useRef } from 'react'
+import { Children, cloneElement, useRef } from 'react'
 import { ChildrenProps, FormContextProps } from './formik-context'
+import { FormikProps } from 'formik'
 
 const useFormikContext = ({ children }: FormContextProps) => {
 	const fieldRef = useRef<{ [key: string]: string | number | boolean }>({})
@@ -17,24 +18,40 @@ const useFormikContext = ({ children }: FormContextProps) => {
 		if (child.props.defaultValue) {
 			return child.props.defaultValue
 		}
-		if (!child.props && child.props.children) return
-		Children.forEach(child.props.children, child => {
-			if (typeof children !== 'object') return
-			if (!child.props) return
-			if (!child.props.name) return getVulue(child)
+	}
+	const getChildren = (children: ChildrenProps[], action: FormikProps<{
+		[key: string]: string | number | boolean;
+	}>) : ChildrenProps[] => {
+		return Children.map(children, child => {
+			if (typeof child !== 'object') return child
+			if (child.props && !child.props.name && child.props.children) {
+				return cloneElement(
+					child,
+					{
+						...child.props,
+						children: getChildren(child.props.children, action)
+					},
+				)
+			}
+			if (!child.props.name && !child.props.children) {
+				return child
+			}
+
 			const name = child.props.name as string
 			const value = getVulue(child)
 			fieldRef.current[name] = value
+			const props = {
+				onChange: action.handleChange,
+			}
+			return cloneElement(
+				child,
+				props,
+			)
 		})
 	}
-	Children.forEach(children, child => {
-		if (typeof children !== 'object') return
-		const name = child.props.name as string
-		const value = getVulue(child)
-		if (!value) return
-		fieldRef.current[name] = value
-	})
+
 	return {
+		getChildren,
 		fieldRef,
 	}
 }
