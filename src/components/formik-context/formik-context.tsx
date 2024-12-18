@@ -22,8 +22,7 @@ const FormContext: FC<FormContextProps> = ({ children, yup={} }) => {
 					...shemadRef.current,
 				})
 			}}
-			onSubmit={async (values, { validateForm }) => {
-				console.log(await validateForm(values))
+			onSubmit={async (values) => {
 				alert(JSON.stringify(values, null, 4))
 			}}
 		>
@@ -34,7 +33,10 @@ const FormContext: FC<FormContextProps> = ({ children, yup={} }) => {
 						<Button
 							disabled={
 								action.isSubmitting ||
-								!action.isValid
+								!action.isValid ||
+								(!action.isInitialValid &&
+									Object.keys(shemadRef.current).length > 0 &&
+									Object.keys(action.touched).length === 0)
 							}
 							size="xs"
 							variant="outline"

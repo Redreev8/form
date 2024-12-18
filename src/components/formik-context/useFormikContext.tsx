@@ -49,7 +49,6 @@ const useFormikContext = ({ children, yup }: FormContextProps) => {
 			if (validate && !shemadRef.current[name]) {
 				shemadRef.current[name] = validate
 			}
-
 			fieldRef.current[name] = value
 			const props = {
 				onChange: action.handleChange,
