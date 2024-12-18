@@ -6,29 +6,33 @@ import { FormContextProps } from './formik-context/formik-context'
 
 const FormRoom = () => {
 	const yup: FormContextProps['yup'] = {
-		'floor': (yup) => (yup as NumberSchema).test(
-			'should-be-greather-than-totalFloors', 
-			'Значение не может быть больше количества этажей', 
-			function(value) {
-				const totalFloors = this.parent.totalFloors
-				if (!value) return false
-				if (!totalFloors) {
-					return true;
-				}
-				return value <= totalFloors
-			}),
-		'square': (yup) => (yup as NumberSchema).test(
-			'should-be-greather-than-livingSquare+kitchenSquare', 
-			'Общая площадь должна быть больше суммы жилой площади и площади кухни', 
-			function(value) {
-				const livingSquare = this.parent.livingSquare
-				const kitchenSquare = this.parent.kitchenSquare
-				if (!value) return 
-				if (!livingSquare && !kitchenSquare) {
-					return true
-				}
-				return value > livingSquare + kitchenSquare
-			})
+		floor: yup =>
+			(yup as NumberSchema).test(
+				'should-be-greather-than-totalFloors',
+				'Значение не может быть больше количества этажей',
+				function (value) {
+					const totalFloors = this.parent.totalFloors
+					if (!value) return false
+					if (!totalFloors) {
+						return true
+					}
+					return value <= totalFloors
+				},
+			),
+		square: yup =>
+			(yup as NumberSchema).test(
+				'should-be-greather-than-livingSquare+kitchenSquare',
+				'Общая площадь должна быть больше суммы жилой площади и площади кухни',
+				function (value) {
+					const livingSquare = this.parent.livingSquare
+					const kitchenSquare = this.parent.kitchenSquare
+					if (!value) return
+					if (!livingSquare && !kitchenSquare) {
+						return true
+					}
+					return value > livingSquare + kitchenSquare
+				},
+			),
 	}
 	return (
 		<FormikContext yup={yup}>

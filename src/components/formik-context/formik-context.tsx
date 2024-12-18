@@ -12,7 +12,7 @@ export interface FormContextProps {
 	yup?: { [key: string]: (yup: YupType) => YupType }
 }
 
-const FormContext: FC<FormContextProps> = ({ children, yup={} }) => {
+const FormContext: FC<FormContextProps> = ({ children, yup = {} }) => {
 	const { shemadRef, fieldRef, getChildren } = useFormikContext({ children, yup })
 	return (
 		<Formik
@@ -22,7 +22,7 @@ const FormContext: FC<FormContextProps> = ({ children, yup={} }) => {
 					...shemadRef.current,
 				})
 			}}
-			onSubmit={async (values) => {
+			onSubmit={async values => {
 				alert(JSON.stringify(values, null, 4))
 			}}
 		>
@@ -35,8 +35,12 @@ const FormContext: FC<FormContextProps> = ({ children, yup={} }) => {
 								action.isSubmitting ||
 								!action.isValid ||
 								(!action.isInitialValid &&
-									Object.keys(shemadRef.current).length > 0 &&
-									Object.keys(action.touched).length === 0)
+									Object.keys(
+										shemadRef.current,
+									).length > 0 &&
+									Object.keys(
+										action.touched,
+									).length === 0)
 							}
 							size="xs"
 							variant="outline"

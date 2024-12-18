@@ -1,7 +1,7 @@
 import * as Yup from 'yup'
 
 const string = () => {
-	let yup = Yup.string()
+	const yup = Yup.string()
 
 	return yup
 }
@@ -19,13 +19,16 @@ const integer = (input: JSX.Element) => {
 			input.props.max,
 			`Значение не может быть меньше ${input.props.max}`,
 		)
-	}	
+	}
 	return yup
 }
 
 export type YupType = Yup.StringSchema | Yup.NumberSchema
 
-const generateValidate = (input: JSX.Element, yupProps: undefined | ((yup: YupType) => YupType)) => {
+const generateValidate = (
+	input: JSX.Element,
+	yupProps: undefined | ((yup: YupType) => YupType),
+) => {
 	let yup
 	if (input.props.type === 'text') {
 		yup = string()
@@ -37,7 +40,7 @@ const generateValidate = (input: JSX.Element, yupProps: undefined | ((yup: YupTy
 	if (yup && 'required' in input.props) {
 		yup = yup.required('Поле обязательно для заполнения')
 	}
-	
+
 	if (yup && yupProps) {
 		yup = yupProps(yup)
 	}
