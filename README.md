@@ -1,4 +1,13 @@
+## Explanation
+
+Изначально хотел сдалать контекст но в процесе решил отказаться 
+
+## Documentation
+
+Приставки нового инпута указав *min*, *max*, *required* будет произведена валидация, для болие сложных нужно прокинуть пропс *yup* где ключ это название поля, а значиние функцияv типа `(yup: YupType) => YupType`
+
 # React + TypeScript + Vite
+
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
