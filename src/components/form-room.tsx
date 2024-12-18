@@ -15,7 +15,7 @@ const FormRoom = () => {
 				if (!totalFloors) {
 					return true;
 				}
-				return value < totalFloors
+				return value <= totalFloors
 			}),
 		'square': (yup) => (yup as NumberSchema).test(
 			'should-be-greather-than-livingSquare+kitchenSquare', 
