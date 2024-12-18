@@ -3,7 +3,7 @@ import { Formik, Form } from 'formik'
 import { Flex } from '@chakra-ui/react'
 import { Button } from '../ui/button'
 import useFormikContext from './useFormikContext'
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 
 export const FormikContext = createContext({})
 export type ChildrenProps = ReactElement
@@ -18,11 +18,9 @@ const FormContext: FC<FormContextProps> = ({ children }) => {
 			<Formik
 				initialValues={fieldRef.current}
 				validationSchema={() => {
-					let yup = Yup.string()
-					yup = yup.required()					
-					return Yup.object({ 
+					return Yup.object({
 						...shemadRef.current,
-					 })
+					})
 				}}
 				onSubmit={async (values, { validateForm }) => {
 					console.log(await validateForm(values))
@@ -34,7 +32,10 @@ const FormContext: FC<FormContextProps> = ({ children }) => {
 						<Flex gap="8" direction="column">
 							{getChildren(children, action)}
 							<Button
-								disabled={action.isSubmitting || !action.isValid}
+								disabled={
+									action.isSubmitting ||
+									!action.isValid
+								}
 								size="xs"
 								variant="outline"
 								type="submit"

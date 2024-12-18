@@ -49,20 +49,22 @@ const useFormikContext = ({ children }: FormContextProps) => {
 			if (validate && !shemadRef.current[name]) {
 				shemadRef.current[name] = validate
 			}
-			
+
 			fieldRef.current[name] = value
 			const props = {
 				onChange: action.handleChange,
 				onBlur: action.handleBlur,
-				disabled: action.isSubmitting
+				disabled: action.isSubmitting,
 			}
 			child = cloneElement(child, props)
-			return <>
-				{child}
-				{action.errors[name] && action.touched[name] ? (
-					<div>{action.errors[name]}</div>
-				) : null}
-			</>
+			return (
+				<>
+					{child}
+					{action.errors[name] && action.touched[name] ? (
+						<div>{action.errors[name]}</div>
+					) : null}
+				</>
+			)
 		})
 	}
 
